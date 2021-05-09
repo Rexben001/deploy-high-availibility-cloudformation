@@ -116,20 +116,19 @@ Resources:
           - Effect: Allow
             Principal:
               Service:
-                - s3.amazonaws.com
+                - ec2.amazonaws.com
             Action:
               - sts:AssumeRole
   
   IamPolicy:
     Type: AWS::IAM::Policy
     Properties:
-      PolicyName: IamS3Policy
+      PolicyName: IamPolicy
       PolicyDocument: 
         Version: "2012-10-17"
         Statement:
           - Effect: Allow
-            Action:
-              - s3:Get*
+            Action: "s3:*"
             Resource: '*'
       Roles:
         - !Ref IamRole
@@ -149,11 +148,11 @@ Resources:
           cd /var/www/html
           aws s3 cp s3://udacity-demo-1/udacity.zip .
           unzip -o udacity.zip
-          
       ImageId: !Ref AmiId
       SecurityGroups:
       - Ref: SecurityGrp
       InstanceType: t3.medium
+      IamInstanceProfile: !Ref IamInstanceProfile
       BlockDeviceMappings:
       - DeviceName: "/dev/sdk"
         Ebs:
