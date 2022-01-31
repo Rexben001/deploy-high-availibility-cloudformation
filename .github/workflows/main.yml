@@ -26,6 +26,7 @@ jobs:
           aws cloudformation delete-stack --stack-name $STACK_NAME
 
   create-stack:
+    runs-on: ubuntu-latest
     needs: delete-stack
     uses: aws-actions/configure-aws-credentials@v1
     with:
@@ -39,6 +40,7 @@ jobs:
           aws cloudformation create-stack --stack-name $STACK_NAME --template-body file://networkcfn.yml  --parameters file://network-params.json --capabilities "CAPABILITY_IAM" "CAPABILITY_NAMED_IAM" --region=us-west-2
 
   update-stack:
+    runs-on: ubuntu-latest
     needs: create-stack
     uses: aws-actions/configure-aws-credentials@v1
     with:
