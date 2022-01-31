@@ -2,6 +2,9 @@ name: Deploy
 
 on: push
 
+env:
+  STACK_NAME: deploy-test-project
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -16,10 +19,14 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-2
 
+      - name: delete stack
+        run: |
+          aws cloudformation delete-stack --stack-name $STACK_NAME
+
       - name: create VPC and networking
         run: |
-          aws cloudformation update-stack --stack-name deploy-fe --template-body file://networkcfn.yml  --parameters file://network-params.json --capabilities "CAPABILITY_IAM" "CAPABILITY_NAMED_IAM" --region=us-west-2
+          aws cloudformation create-stack --stack-name $STACK_NAME --template-body file://networkcfn.yml  --parameters file://network-params.json --capabilities "CAPABILITY_IAM" "CAPABILITY_NAMED_IAM" --region=us-west-2
 
       - name: create server
         run: |
-          aws cloudformation update-stack --stack-name deploy-fe --template-body file://servercfn.yml  --parameters file://server-params.json --capabilities "CAPABILITY_IAM" "CAPABILITY_NAMED_IAM" --region=us-west-2
+          aws cloudformation update-stack --stack-name $STACK_NAME --template-body file://servercfn.yml  --parameters file://server-params.json --capabilities "CAPABILITY_IAM" "CAPABILITY_NAMED_IAM" --region=us-west-2
