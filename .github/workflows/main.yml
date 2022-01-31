@@ -21,6 +21,7 @@ jobs:
 
   delete-stack:
     runs-on: ubuntu-latest
+    needs: checkout-configure
     steps:
       - name: delete stack
         run: |
