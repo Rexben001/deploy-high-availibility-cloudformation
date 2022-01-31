@@ -6,7 +6,7 @@ env:
   STACK_NAME: deploy-test-project
 
 jobs:
-  checkout:
+  checkout-actions:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -14,7 +14,7 @@ jobs:
 
   delete-stack:
     runs-on: ubuntu-latest
-    needs: checkout
+    needs: checkout-actions
     use: aws-actions/configure-aws-credentials@v1
     with:
       aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
