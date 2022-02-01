@@ -4,8 +4,11 @@ Description: >
 Parameters:
     EnvironmentName:
         Type: String
+        Default: RexbenProject
+
     AmiId:
       Type: String
+      Default: ami-090717c950a5c34d3
 
 
 Resources:
