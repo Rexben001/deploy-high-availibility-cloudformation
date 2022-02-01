@@ -39,7 +39,7 @@ jobs:
       - name: create VPC and networking
         working-directory: ./
         run: |
-          aws cloudformation create-stack --stack-name deploy-test-project --template-body file://networkcfn.yml  --parameters file://network-params.json --capabilities "CAPABILITY_IAM" "CAPABILITY_NAMED_IAM" --region=us-west-2
+          aws cloudformation create-stack --stack-name deploy-test-project --template-body file:///networkcfn.yml  --parameters file:///network-params.json --capabilities "CAPABILITY_IAM" "CAPABILITY_NAMED_IAM" --region=us-west-2
 
   update-stack:
     runs-on: ubuntu-latest
@@ -54,4 +54,4 @@ jobs:
       - name: create server
         working-directory: ./
         run: |
-          aws cloudformation update-stack --stack-name deploy-test-project --template-body file://servercfn.yml  --parameters file://server-params.json --capabilities "CAPABILITY_IAM" "CAPABILITY_NAMED_IAM" --region=us-west-2
+          aws cloudformation update-stack --stack-name deploy-test-project --template-body file:///servercfn.yml  --parameters file:///server-params.json --capabilities "CAPABILITY_IAM" "CAPABILITY_NAMED_IAM" --region=us-west-2
