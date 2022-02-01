@@ -39,12 +39,9 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-2
       - name: create VPC and networking
-        uses: aws-actions/aws-cloudformation-github-deploy@v1
-        with:
-          name: $STACK_NAME
-          template: ../networkcfn.yml
-          parameter-overrides: "MyParam1=myValue,MyParam2=${{ secrets.MY_SECRET_VALUE }}"
-  
+        run: |
+          aws cloudformation create-stack --stack-name deploy-test-project --template-body file:///networkcfn.yml  --parameters file:///network-params.json --capabilities "CAPABILITY_IAM" "CAPABILITY_NAMED_IAM" --region=us-west-2
+
   update-stack:
     runs-on: ubuntu-latest
     needs: create-stack
@@ -58,8 +55,5 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-2
       - name: create server
-        uses: aws-actions/aws-cloudformation-github-deploy@v1
-        with:
-          name: $STACK_NAME
-          template: servercfn.yml
-          parameter-overrides: "MyParam1=myValue,MyParam2=${{ secrets.MY_SECRET_VALUE }}"
+        run: |
+          aws cloudformation update-stack --stack-name deploy-test-project --template-body file:///servercfn.yml  --parameters file:///server-params.json --capabilities "CAPABILITY_IAM" "CAPABILITY_NAMED_IAM" --region=us-west-2
